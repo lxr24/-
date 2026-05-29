@@ -78,7 +78,7 @@ flowchart LR
 
 ### 4.1 通用约定
 - **REST Base URL**：`/api`（部署时通常由网关或 Next.js rewrite 转发）
-- **鉴权**：请求头 Authorization 值为 token_type + 空格 + access_token（token_type 固定为 bearer，由 `/auth/login` 返回）
+- **鉴权**：请求头 Authorization 值为 B​earer + 空格 + <access_token>（`/auth/login` 返回 token_type=bearer）
 - **时间字段**：ISO 8601 字符串
 - **错误响应**：HTTP 状态码 + `detail` 或 `message` 字段
 
