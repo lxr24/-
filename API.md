@@ -78,7 +78,10 @@ flowchart LR
 
 ### 4.1 通用约定
 - **REST Base URL**：`/api`（部署时通常由网关或 Next.js rewrite 转发）
-- **鉴权**：请求头 Authorization 值为 Bearer + 空格 + <access_token>（`/auth/login` 返回 token_type=bearer，小写；header 前缀按 Bearer 规范）
+- **鉴权**：
+  - `/auth/login` 返回 `token_type: "bearer"`（小写）
+  - Authorization 头格式：`Bearer <access_token>`（Bearer 首字母大写，后接空格）
+  - 示例：`Authorization: Bearer <access_token>`
 - **时间字段**：ISO 8601 字符串
 - **错误响应**：HTTP 状态码 + `detail` 或 `message` 字段
 
@@ -216,8 +219,7 @@ flowchart LR
 - `new_conversation`：新会话通知
 - `role_changed`：群成员角色变更
 - `member_change`：群成员列表变更
-- `MEMBER_REMOVED`：群成员被移除（当前实现为全大写，客户端需按该名称处理，建议后续统一为 `member_removed`）
-- 迁移建议：后续新增 `member_removed` 事件并提供兼容期，同时标记 `MEMBER_REMOVED` 为待弃用。
+- `MEMBER_REMOVED`：群成员被移除（为兼容现有实现，当前仍使用全大写；建议后续统一为 `member_removed` 并提供兼容期）
 - `error` / `pong`
 
 ### 4.7 消息发送序列图
