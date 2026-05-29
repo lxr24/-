@@ -78,7 +78,7 @@ flowchart LR
 
 ### 4.1 通用约定
 - **REST Base URL**：`/api`（部署时通常由网关或 Next.js rewrite 转发）
-- **鉴权**：请求头 Authorization，格式为 `<token_type> <access_token>`（由 `/auth/login` 返回）
+- **鉴权**：请求头 Authorization 值为 token_type + 空格 + access_token（token_type 固定为 bearer，由 `/auth/login` 返回）
 - **时间字段**：ISO 8601 字符串
 - **错误响应**：HTTP 状态码 + `detail` 或 `message` 字段
 
@@ -214,7 +214,9 @@ flowchart LR
 - `typing_status`：输入状态
 - `group_announcement`：公告推送
 - `new_conversation`：新会话通知
-- `role_changed` / `member_change` / `MEMBER_REMOVED`：群成员变更（其中 `MEMBER_REMOVED` 为全大写，客户端需按该名称处理）
+- `role_changed`：群成员角色变更
+- `member_change`：群成员列表变更
+- `member_removed`：群成员被移除（当前服务端事件名为 `MEMBER_REMOVED`，客户端需兼容该名称）
 - `error` / `pong`
 
 ### 4.7 消息发送序列图
