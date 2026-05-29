@@ -1,0 +1,48 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.message-highlight {
+  animation: messageHighlight 1.6s ease;
+  border-width: 1px;
+  border-radius: 6px;
+}
+
+@keyframes messageHighlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(252, 188, 50, 0);
+    background-color: transparent;
+  }
+  40% {
+    box-shadow: 0 0 0 0px rgba(76, 76, 77, 0.5);
+    background-color: rgba(95, 100, 117, 0.12);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(252, 188, 50, 0);
+    background-color: transparent;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}

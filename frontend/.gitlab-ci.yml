@@ -1,0 +1,61 @@
+# TODO Start: [Student] URL
+image: registry.spring26b.secoder.net/tool/deployer
+# TODO End
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script: 
+    - export BUILD_IMAGE_NAME=$CI_REGISTRY_IMAGE
+    - export BUILD_IMAGE_TAG=$CI_COMMIT_REF_SLUG
+    - export BUILD_IMAGE_USERNAME=$CI_REGISTRY_USER
+    - export BUILD_IMAGE_PASSWORD=$CI_REGISTRY_PASSWORD
+    - deployer build
+  only:
+    - master
+
+# TODO Start: [Student] Complete test stage
+# 定义 node 模板
+.node_template: &node_template
+  image: node:22
+  before_script:
+    - npm install -g pnpm
+    - pnpm config set registry https://registry.npmmirror.com/
+    - pnpm install
+
+unit-test:
+  stage: test
+  <<: *node_template
+  script: 
+    - echo "Skip unit tests (no test files)"
+  after_script:
+    - echo "Downloading sonar-scanner..."
+    - SUFFIX=$RANDOM
+    - curl "http://api.spring26b.secoder.net/static/sonar-scanner.tar.gz" -s -o "/tmp/sonar-$SUFFIX.tar.gz"
+    - mkdir -p /opt
+    - tar -xf "/tmp/sonar-$SUFFIX.tar.gz" -C /opt
+    - echo "Running sonar-scanner..."
+    - /opt/sonar-scanner/bin/sonar-scanner
+      -Dsonar.host.url=https://sonarqube.spring26b.secoder.net/
+      -Dsonar.login=$SONAR_TOKEN
+
+style-test:
+  stage: test
+  <<: *node_template
+  script:
+    - pnpm lint
+# TODO End
+
+deploy:
+  stage: deploy
+  script:
+    # TODO Start: [Student] URL
+    - export API_SERVER=https://deployer.spring26b.secoder.net/api
+    # TODO End
+    - deployer dyno replace $CI_PROJECT_NAME "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" "$REGISTRY_USER" "$REGISTRY_PWD"
+  only:
+    - master

@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+aiomysql
+pydantic-settings
+python-multipart
+python-jose
+passlib
+pytest
+pytest-asyncio
+httpx
+email-validator
+sqlalchemy
+aiosqlite==0.21.0
+httpx>=0.23
+httpx-ws
+starlette
+bleach
